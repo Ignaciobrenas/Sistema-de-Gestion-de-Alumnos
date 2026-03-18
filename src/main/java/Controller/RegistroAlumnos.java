@@ -125,7 +125,11 @@ public class RegistroAlumnos {
         String curso = scanner.nextLine().trim();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
-            writer.write(dni + "----" + nombre + "----" + apellido + "----" + edad + "----" + curso);
+            writer.write("--------------------------NUEVO ALUMNO---------------------------------");
+
+            writer.write("\nDNI: " + dni + "\nNOMBRE: " + nombre + "\nAPELLIDOS: " + apellido + "\nEDAD: " + edad + "\nCURSO: " + curso);
+            
+            writer.write("\n-----------------------------------------------------------------------------------");
             writer.newLine();
         }
 
