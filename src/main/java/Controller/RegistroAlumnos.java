@@ -8,13 +8,18 @@ package Controller;
  *
  * @author ignac
  */
+import Model.Alumno;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RegistroAlumnos {
 
+    public static ArrayList<Alumno> alumnos = new ArrayList();
+
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
+
         String ARCHIVO_REGISTRO = "registro.txt";
 
         // esto es para crear el archivo si no existe
@@ -51,7 +56,8 @@ public class RegistroAlumnos {
                     break;
 
                 case 2:
-                    // Mostrar alumnos
+
+                    mostrarAlumno(scanner, ARCHIVO_REGISTRO);
                     break;
 
                 case 3:
@@ -107,9 +113,10 @@ public class RegistroAlumnos {
         System.out.print("APELLIDOS: ");
         String apellido = scanner.nextLine().trim();
 
-        Integer edad = null;
+        int edad;
         System.out.print("Edad: ");
         String edad1 = scanner.nextLine().trim();
+
         try {
             edad = Integer.parseInt(edad1);
             if (edad < 0) {
@@ -123,17 +130,46 @@ public class RegistroAlumnos {
 
         System.out.print("Curso: ");
         String curso = scanner.nextLine().trim();
-
+        
+        //añadimos el alumno al arraylist
+        Alumno alumno = new Alumno(nombre, apellido, edad, curso, dni);
+        alumnos.add(alumno);
+        
+        
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
             writer.write("--------------------------NUEVO ALUMNO---------------------------------");
 
             writer.write("\nDNI: " + dni + "\nNOMBRE: " + nombre + "\nAPELLIDOS: " + apellido + "\nEDAD: " + edad + "\nCURSO: " + curso);
-            
+
             writer.write("\n-----------------------------------------------------------------------------------");
             writer.newLine();
         }
 
         System.out.println("Alumno agregado correctamente.");
+    }
+
+    public static void mostrarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
+        System.out.println("MOSTRAR ALUMNOS");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            boolean vacio = true;
+
+            while ((linea = reader.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    System.out.println(linea);
+                    vacio = false;
+                }
+            }
+
+            if (vacio) {
+                System.out.println("No hay alumnos registrados.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
     }
 
 }
