@@ -61,7 +61,7 @@ public class RegistroAlumnos {
                     break;
 
                 case 3:
-                    // Eliminar alumno
+                   eliminarAlumno(scanner, ARCHIVO_REGISTRO);
                     break;
 
                 case 4:
@@ -170,6 +170,33 @@ public class RegistroAlumnos {
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
+    }
+
+    public static void eliminarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
+        System.out.println("ELIMINAR ALUMNO");
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            boolean vacio = true;
+
+            while ((linea = reader.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    System.out.println(linea);
+                    vacio = false;
+                }
+            }
+
+            if (vacio) {
+                System.out.println("No hay alumnos registrados.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo: " + e.getMessage());
+        }
+  
+    
+    
+    
+    
     }
 
 }
