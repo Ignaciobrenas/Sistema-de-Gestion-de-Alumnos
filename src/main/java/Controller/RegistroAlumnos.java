@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RegistroAlumnos {
-
+ 
     public static ArrayList<Alumno> alumnos = new ArrayList();
-
+ 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-
+ 
         String ARCHIVO_REGISTRO = "registro.txt";
-
+ 
         // esto es para crear el archivo si no existe
         File archivo = new File(ARCHIVO_REGISTRO);
         if (!archivo.exists()) {
@@ -33,7 +33,7 @@ public class RegistroAlumnos {
                 return;
             }
         }
-
+ 
         int opcion;
         do {
             System.out.println(" REGISTRO DE ALUMNOS DEL INSTITUTO");
@@ -43,13 +43,13 @@ public class RegistroAlumnos {
             System.out.println("4. Buscar un alumno por DNI");
             System.out.println("5. Salir del programa");
             System.out.print("Selecciona una opcion: ");
-
+ 
             try {
                 opcion = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 opcion = 0;
             }
-
+ 
             switch (opcion) {
                 case 1:
                     agregarAlumno(scanner, ARCHIVO_REGISTRO);
@@ -61,11 +61,11 @@ public class RegistroAlumnos {
                     break;
 
                 case 3:
-                   eliminarAlumno(scanner, ARCHIVO_REGISTRO);
+                    eliminarAlumno(scanner, ARCHIVO_REGISTRO);
                     break;
 
                 case 4:
-                    // Buscar alumno
+//                    buscarAlumno(scanner, ARCHIVO_REGISTRO);
                     break;
 
                 case 5:
@@ -78,102 +78,106 @@ public class RegistroAlumnos {
         } while (opcion != 5);
 
     }
-
+ 
     public static void agregarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) throws IOException {
         System.out.println("AGREGAR UN ALUMNO");
         System.out.print("DNI: ");
         String dni = scanner.nextLine().trim();
-
+ 
         if (dni.isEmpty()) {
-            System.out.println("DNI no puede estar vacío.");
+            System.out.println("DNI no puede estar vacio.");
             return;
         }
-
+ 
         boolean existe = false;
         try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-                if (!linea.trim().isEmpty()) {
-                    String[] datos = linea.split(";");
-                    if (datos.length >= 1 && datos[0].trim().equals(dni)) {
-                        existe = true;
-                        break;
-                    }
+                if (linea.trim().equals("DNI: " + dni)) {
+                    existe = true;
+                    break;
                 }
             }
         }
-
+ 
         if (existe) {
             System.out.println("Error: Ya existe un alumno registrado con el DNI " + dni);
             return;
         }
-
+ 
         System.out.print("NOMBRE: ");
         String nombre = scanner.nextLine().trim();
         System.out.print("APELLIDOS: ");
         String apellido = scanner.nextLine().trim();
-
+ 
         int edad;
         System.out.print("Edad: ");
         String edad1 = scanner.nextLine().trim();
-
+   
         try {
             edad = Integer.parseInt(edad1);
             if (edad < 0) {
-                System.out.println("Edad inválida.");
+                System.out.println("Edad invalida.");
                 return;
             }
         } catch (NumberFormatException e) {
-            System.out.println("Edad no es un número válido.");
+            System.out.println("Edad no es un numero valido.");
             return;
         }
-
+ 
         System.out.print("Curso: ");
         String curso = scanner.nextLine().trim();
-        
+ 
         //añadimos el alumno al arraylist
         Alumno alumno = new Alumno(nombre, apellido, edad, curso, dni);
         alumnos.add(alumno);
-        
+ 
         
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
-            writer.write("--------------------------NUEVO ALUMNO---------------------------------");
-
-            writer.write("\nDNI: " + dni + "\nNOMBRE: " + nombre + "\nAPELLIDOS: " + apellido + "\nEDAD: " + edad + "\nCURSO: " + curso);
-
-            writer.write("\n-----------------------------------------------------------------------------------");
+            writer.write("DNI: " + dni);
+            writer.newLine();
+            writer.write("NOMBRE: " + nombre);
+            writer.newLine();
+            writer.write("APELLIDOS: " + apellido);
+            writer.newLine();
+            writer.write("EDAD: " + edad);
+            writer.newLine();
+            writer.write("CURSO: " + curso);
+            writer.newLine();
+            writer.write("-----------------------------------------------------------------------------------");
             writer.newLine();
         }
-
+ 
         System.out.println("Alumno agregado correctamente.");
     }
-
+ 
     public static void mostrarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
         System.out.println("MOSTRAR ALUMNOS");
-
+ 
         try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
             String linea;
             boolean vacio = true;
-
+ 
             while ((linea = reader.readLine()) != null) {
                 if (!linea.trim().isEmpty()) {
                     System.out.println(linea);
                     vacio = false;
                 }
             }
-
+ 
             if (vacio) {
                 System.out.println("No hay alumnos registrados.");
             }
-
+ 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
-
-    public static void eliminarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
+ 
+    public static void eliminarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) throws IOException {
         System.out.println("ELIMINAR ALUMNO");
+ 
         try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
             String linea;
             boolean vacio = true;
@@ -187,16 +191,55 @@ public class RegistroAlumnos {
 
             if (vacio) {
                 System.out.println("No hay alumnos registrados.");
+                return;
             }
-
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo: " + e.getMessage());
         }
-  
-    
-    
-    
-    
+ 
+        System.out.print("Introduce el DNI del alumno que quieres eliminar: ");
+        String dni = scanner.nextLine().trim();
+ 
+        if (dni.isEmpty()) {
+            System.out.println("DNI vacio. Operacion cancelada.");
+            return;
+        }
+ 
+        ArrayList<String> lineas = new ArrayList<>();
+        boolean eliminar = false;
+        boolean dentroDelAlumno = false;
+ 
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            ArrayList<String> bloqueActual = new ArrayList<>();
+ 
+            while ((linea = reader.readLine()) != null) {
+                bloqueActual.add(linea);
+                
+                
+                // con esto el programa sabe cuando acaba y cuando empieza un alumno
+                if (linea.startsWith("---")) {
+                    if (!bloqueActual.isEmpty() && bloqueActual.get(0).trim().equals("DNI: " + dni)) {
+                        eliminar = true;
+                    } else {
+                        lineas.addAll(bloqueActual);
+                    }
+                    bloqueActual.clear();
+                }
+            }
+        }
+ 
+        if (!eliminar) {
+            System.out.println("Ese alumno no existe en el registro.");
+            return;
+        }
+ 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, false))) {
+            for (String l : lineas) {
+                writer.write(l);
+                writer.newLine();
+            }
+        }
+ 
+        System.out.println("Alumno eliminado correctamente.");
     }
-
+  
 }
