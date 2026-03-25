@@ -149,7 +149,35 @@ public class RegistroAlumnos {
 
         System.out.println("Alumno agregado correctamente.");
     }
+    
+    public static void agregarAlumno(Alumno alumno, String ARCHIVO_REGISTRO) throws IOException {
+    String dni = alumno.getDni();
 
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+        String linea;
+        while ((linea = reader.readLine()) != null) {
+            if (linea.trim().equals("DNI: " + dni)) {
+                throw new IOException("Ya existe un alumno con el DNI " + dni);
+            }
+        }
+    }
+
+    // Añadir al ArrayList 
+    alumnos.add(alumno);
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
+        writer.write("DNI: " + alumno.getDni()); writer.newLine();
+        writer.write("NOMBRE: " + alumno.getNombre()); writer.newLine();
+        writer.write("APELLIDOS: " + alumno.getApellido()); writer.newLine();
+        writer.write("EDAD: " + alumno.getEdad()); writer.newLine();
+        writer.write("CURSO: " + alumno.getCurso()); writer.newLine();
+        writer.write("-----------------------------------------------------------------------------------");
+        writer.newLine();
+    }
+}
+    
+    
     public static void mostrarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
         System.out.println("MOSTRAR ALUMNOS");
 
