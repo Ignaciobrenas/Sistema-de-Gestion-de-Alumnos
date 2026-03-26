@@ -141,7 +141,7 @@ public class MenuView extends javax.swing.JFrame {
 
     private void mostrarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarAlumnoActionPerformed
         // TODO add your handling code here:
-        MostrarView mostrar = new MostrarView(this, true);
+        MostrarView mostrar = new MostrarView(new javax.swing.JFrame(), true, "registro.txt");
         mostrar.setLocationRelativeTo(null);
         mostrar.setVisible(true);
 

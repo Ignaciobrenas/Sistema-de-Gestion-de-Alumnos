@@ -200,7 +200,33 @@ public class RegistroAlumnos {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
+  
+ public static String mostrarAlumno(String ARCHIVO_REGISTRO) {
+    StringBuilder resultado = new StringBuilder();
 
+    try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+        String linea;
+        boolean vacio = true;
+
+        while ((linea = reader.readLine()) != null) {
+            if (!linea.trim().isEmpty()) {
+                resultado.append(linea).append("\n");
+                vacio = false;
+            }
+        }
+
+        if (vacio) {
+            resultado.append("No hay alumnos registrados.\n");
+        }
+
+    } catch (IOException e) {
+        resultado.append("Error al leer el archivo: ").append(e.getMessage());
+    }
+
+    return resultado.toString();
+}
+    
+    
     public static void eliminarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) throws IOException {
         System.out.println("ELIMINAR ALUMNO");
 

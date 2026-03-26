@@ -1,23 +1,27 @@
 package View;
 
+import Controller.RegistroAlumnos;
+import javax.swing.JOptionPane;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-
 /**
  *
  * @author ignac
  */
 public class MostrarView extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MostrarView.class.getName());
+    private String ARCHIVO_REGISTRO;
 
     /**
      * Creates new form MostrarView
      */
-    public MostrarView(java.awt.Frame parent, boolean modal) {
+    public MostrarView(java.awt.Frame parent, boolean modal, String archivo) {
         super(parent, modal);
+         this.ARCHIVO_REGISTRO = archivo;
         initComponents();
     }
 
@@ -30,31 +34,91 @@ public class MostrarView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jRadioButton1 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        mostrarAlumnosTEXT = new javax.swing.JTextArea();
+        verAlumnos = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("Mostrar Alumnos");
+
+        mostrarAlumnosTEXT.setColumns(20);
+        mostrarAlumnosTEXT.setRows(5);
+        mostrarAlumnosTEXT.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mostrarAlumnosTEXTKeyPressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(mostrarAlumnosTEXT);
+
+        verAlumnos.setText("Ver");
+        verAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verAlumnosActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Hay que darle a ver para ver los alumnos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(187, 187, 187)
+                        .addComponent(verAlumnos)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(verAlumnos)
+                .addGap(34, 34, 34))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void mostrarAlumnosTEXTKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mostrarAlumnosTEXTKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mostrarAlumnosTEXTKeyPressed
+
+    private void verAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verAlumnosActionPerformed
+        // TODO add your handling code here:
+        mostrarAlumnosTEXT.setText(RegistroAlumnos.mostrarAlumno(ARCHIVO_REGISTRO));
+    }//GEN-LAST:event_verAlumnosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -81,7 +145,7 @@ public class MostrarView extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MostrarView dialog = new MostrarView(new javax.swing.JFrame(), true);
+                MostrarView dialog = new MostrarView(new javax.swing.JFrame(), true, "registro.txt");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -95,5 +159,10 @@ public class MostrarView extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea mostrarAlumnosTEXT;
+    private javax.swing.JButton verAlumnos;
     // End of variables declaration//GEN-END:variables
 }
