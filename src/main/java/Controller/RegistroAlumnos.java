@@ -200,7 +200,7 @@ public class RegistroAlumnos {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
-  
+  //METODO PARA LA INTERFAZ GRAFICA
  public static String mostrarAlumno(String ARCHIVO_REGISTRO) {
     StringBuilder resultado = new StringBuilder();
 

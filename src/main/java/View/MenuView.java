@@ -134,7 +134,7 @@ public class MenuView extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarAlumnoActionPerformed
 
     private void eliminarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarAlumnoActionPerformed
-        EliminarView eliminar = new EliminarView(this, true);
+        EliminarView eliminar = new EliminarView(new javax.swing.JFrame(), true, "registro.txt");
         eliminar.setLocationRelativeTo(null);
         eliminar.setVisible(true);
     }//GEN-LAST:event_eliminarAlumnoActionPerformed
