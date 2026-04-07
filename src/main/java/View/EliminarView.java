@@ -39,6 +39,7 @@ public class EliminarView extends javax.swing.JDialog {
         mostrarAlumnosTEXT = new javax.swing.JTextArea();
         introducirDNI = new javax.swing.JTextField();
         Eliminar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         jButton2.setText("jButton2");
 
@@ -62,12 +63,20 @@ public class EliminarView extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(mostrarAlumnosTEXT);
 
-        Eliminar.setText("jButton1");
+        introducirDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                introducirDNIActionPerformed(evt);
+            }
+        });
+
+        Eliminar.setText("Eliminar");
         Eliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EliminarActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("Introduce el DNI del alumno que quieres eliminar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,26 +85,28 @@ public class EliminarView extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(introducirDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Eliminar)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(verAlumnos)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
-                        .addComponent(introducirDNI)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(verAlumnos))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(verAlumnos)
-                .addGap(32, 32, 32)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(introducirDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addComponent(Eliminar)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -105,6 +116,15 @@ public class EliminarView extends javax.swing.JDialog {
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         // TODO add your handling code here:
+         String dni = introducirDNI.getText().trim();
+    String resultado = RegistroAlumnos.eliminarAlumno(dni, ARCHIVO_REGISTRO);
+    //le mostramos al usuario que el alumno con ese dni se ha eliminado
+    javax.swing.JOptionPane.showMessageDialog(this, resultado);
+   
+    
+
+// mostramos los aumnos de nuevo
+    mostrarAlumnosTEXT.setText(RegistroAlumnos.mostrarAlumno(ARCHIVO_REGISTRO));
     }//GEN-LAST:event_EliminarActionPerformed
 
     private void verAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verAlumnosActionPerformed
@@ -115,6 +135,10 @@ public class EliminarView extends javax.swing.JDialog {
     private void mostrarAlumnosTEXTKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mostrarAlumnosTEXTKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_mostrarAlumnosTEXTKeyPressed
+
+    private void introducirDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introducirDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_introducirDNIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,6 +166,7 @@ public class EliminarView extends javax.swing.JDialog {
             @Override
             public void run() {
                 EliminarView dialog = new EliminarView(new javax.swing.JFrame(), true, "registro.txt");;
+               
                 
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -159,6 +184,7 @@ public class EliminarView extends javax.swing.JDialog {
     private javax.swing.JTextField introducirDNI;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea mostrarAlumnosTEXT;
     private javax.swing.JButton verAlumnos;
