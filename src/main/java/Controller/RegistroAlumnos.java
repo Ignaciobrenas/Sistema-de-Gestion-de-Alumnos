@@ -149,35 +149,38 @@ public class RegistroAlumnos {
 
         System.out.println("Alumno agregado correctamente.");
     }
-    
+
     public static void agregarAlumno(Alumno alumno, String ARCHIVO_REGISTRO) throws IOException {
-    String dni = alumno.getDni();
+        String dni = alumno.getDni();
 
-
-    try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
-        String linea;
-        while ((linea = reader.readLine()) != null) {
-            if (linea.trim().equals("DNI: " + dni)) {
-                throw new IOException("Ya existe un alumno con el DNI " + dni);
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                if (linea.trim().equals("DNI: " + dni)) {
+                    throw new IOException("Ya existe un alumno con el DNI " + dni);
+                }
             }
+        }
+
+        // Añadir al ArrayList 
+        alumnos.add(alumno);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
+            writer.write("DNI: " + alumno.getDni());
+            writer.newLine();
+            writer.write("NOMBRE: " + alumno.getNombre());
+            writer.newLine();
+            writer.write("APELLIDOS: " + alumno.getApellido());
+            writer.newLine();
+            writer.write("EDAD: " + alumno.getEdad());
+            writer.newLine();
+            writer.write("CURSO: " + alumno.getCurso());
+            writer.newLine();
+            writer.write("-----------------------------------------------------------------------------------");
+            writer.newLine();
         }
     }
 
-    // Añadir al ArrayList 
-    alumnos.add(alumno);
-
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, true))) {
-        writer.write("DNI: " + alumno.getDni()); writer.newLine();
-        writer.write("NOMBRE: " + alumno.getNombre()); writer.newLine();
-        writer.write("APELLIDOS: " + alumno.getApellido()); writer.newLine();
-        writer.write("EDAD: " + alumno.getEdad()); writer.newLine();
-        writer.write("CURSO: " + alumno.getCurso()); writer.newLine();
-        writer.write("-----------------------------------------------------------------------------------");
-        writer.newLine();
-    }
-}
-    
-    
     public static void mostrarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) {
         System.out.println("MOSTRAR ALUMNOS");
 
@@ -200,33 +203,33 @@ public class RegistroAlumnos {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
     }
-  //METODO PARA LA INTERFAZ GRAFICA
- public static String mostrarAlumno(String ARCHIVO_REGISTRO) {
-    StringBuilder resultado = new StringBuilder();
+    //METODO PARA LA INTERFAZ GRAFICA
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
-        String linea;
-        boolean vacio = true;
+    public static String mostrarAlumno(String ARCHIVO_REGISTRO) {
+        StringBuilder resultado = new StringBuilder();
 
-        while ((linea = reader.readLine()) != null) {
-            if (!linea.trim().isEmpty()) {
-                resultado.append(linea).append("\n");
-                vacio = false;
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            boolean vacio = true;
+
+            while ((linea = reader.readLine()) != null) {
+                if (!linea.trim().isEmpty()) {
+                    resultado.append(linea).append("\n");
+                    vacio = false;
+                }
             }
+
+            if (vacio) {
+                resultado.append("No hay alumnos registrados.\n");
+            }
+
+        } catch (IOException e) {
+            resultado.append("Error al leer el archivo: ").append(e.getMessage());
         }
 
-        if (vacio) {
-            resultado.append("No hay alumnos registrados.\n");
-        }
-
-    } catch (IOException e) {
-        resultado.append("Error al leer el archivo: ").append(e.getMessage());
+        return resultado.toString();
     }
 
-    return resultado.toString();
-}
-    
-    
     public static void eliminarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) throws IOException {
         System.out.println("ELIMINAR ALUMNO");
 
@@ -265,7 +268,6 @@ public class RegistroAlumnos {
             while ((linea = reader.readLine()) != null) {
                 bloqueActual.add(linea);
 
-                
                 // con esto el programa sabe cuando acaba y cuando empieza un alumno
                 if (linea.startsWith("---")) {
                     if (!bloqueActual.isEmpty() && bloqueActual.get(0).trim().equals("DNI: " + dni)) {
@@ -292,55 +294,57 @@ public class RegistroAlumnos {
 
         System.out.println("Alumno eliminado correctamente.");
     }
-   // METODO PARA LA INTERFAZ GRAFICA
-public static String eliminarAlumno(String dni, String ARCHIVO_REGISTRO) {
-    if (dni == null || dni.trim().isEmpty()) {
-        return "Error: El DNI no puede estar vacío.";
-    }
+    // METODO PARA LA INTERFAZ GRAFICA
 
-    dni = dni.trim();
-    ArrayList<String> lineas = new ArrayList<>();
-    boolean encontrado = false;
+    public static String eliminarAlumno(String dni, String ARCHIVO_REGISTRO) {
+        if (dni == null || dni.trim().isEmpty()) {
+            return "Error: El DNI no puede estar vacío.";
+        }
 
-    try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
-        String linea;
-        ArrayList<String> bloqueActual = new ArrayList<>();
+        dni = dni.trim();
+        ArrayList<String> lineas = new ArrayList<>();
+        boolean encontrado = false;
 
-        while ((linea = reader.readLine()) != null) {
-            bloqueActual.add(linea);
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            ArrayList<String> bloqueActual = new ArrayList<>();
 
-            if (linea.startsWith("---")) {
-                if (!bloqueActual.isEmpty() && bloqueActual.get(0).trim().equals("DNI: " + dni)) {
-                    encontrado = true;
-                } else {
-                    lineas.addAll(bloqueActual);
+            while ((linea = reader.readLine()) != null) {
+                bloqueActual.add(linea);
+
+                if (linea.startsWith("---")) {
+                    if (!bloqueActual.isEmpty() && bloqueActual.get(0).trim().equals("DNI: " + dni)) {
+                        encontrado = true;
+                    } else {
+                        lineas.addAll(bloqueActual);
+                    }
+                    bloqueActual.clear();
                 }
-                bloqueActual.clear();
             }
+
+        } catch (IOException e) {
+            return "Error al leer el archivo: " + e.getMessage();
         }
 
-    } catch (IOException e) {
-        return "Error al leer el archivo: " + e.getMessage();
-    }
-
-    if (!encontrado) {
-        return "No existe ningún alumno con el DNI: " + dni;
-    }
-
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, false))) {
-        for (String l : lineas) {
-            writer.write(l);
-            writer.newLine();
+        if (!encontrado) {
+            return "No existe ningún alumno con el DNI: " + dni;
         }
-    } catch (IOException e) {
-        return "Error al escribir el archivo: " + e.getMessage();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ARCHIVO_REGISTRO, false))) {
+            for (String l : lineas) {
+                writer.write(l);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            return "Error al escribir el archivo: " + e.getMessage();
+        }
+
+        return "Alumno con DNI " + dni + " eliminado correctamente.";
     }
 
-    return "Alumno con DNI " + dni + " eliminado correctamente.";
-} 
     public static void buscarAlumno(Scanner scanner, String ARCHIVO_REGISTRO) throws IOException {
         System.out.println("BUSCAR ALUMNO");
-        
+
         //pido los datos
         System.out.print("Introduce el DNI del alumno que quieres buscar: ");
         String dni = scanner.nextLine().trim();
@@ -375,5 +379,40 @@ public static String eliminarAlumno(String dni, String ARCHIVO_REGISTRO) {
             }
         }
     }
+// METODO PARA LA INTERFAZ GRAFICA
 
+    public static String buscarAlumno(String dni, String ARCHIVO_REGISTRO) {
+        if (dni == null || dni.trim().isEmpty()) {
+            return "Error: El DNI no puede estar vacío.";
+        }
+
+        dni = dni.trim();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(ARCHIVO_REGISTRO))) {
+            String linea;
+            ArrayList<String> bloque = new ArrayList<>();
+
+            while ((linea = reader.readLine()) != null) {
+                bloque.add(linea);
+
+                if (linea.startsWith("---")) {
+                    if (!bloque.isEmpty() && bloque.get(0).trim().equals("DNI: " + dni)) {
+                        StringBuilder resultado = new StringBuilder();
+                        for (String l : bloque) {
+                            if (!l.trim().isEmpty()) {
+                                resultado.append(l).append("\n");
+                            }
+                        }
+                        return resultado.toString();
+                    }
+                    bloque.clear();
+                }
+            }
+
+        } catch (IOException e) {
+            return "Error al leer el archivo: " + e.getMessage();
+        }
+
+        return "No existe ningún alumno con el DNI: " + dni;
+    }
 }

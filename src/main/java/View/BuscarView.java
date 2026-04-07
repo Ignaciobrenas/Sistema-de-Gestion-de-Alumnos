@@ -4,19 +4,23 @@
  */
 package View;
 
+import Controller.RegistroAlumnos;
+
 /**
  *
  * @author ignac
  */
 public class BuscarView extends javax.swing.JDialog {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BuscarView.class.getName());
+    private String ARCHIVO_REGISTRO;
 
     /**
      * Creates new form BuscarView
      */
-    public BuscarView(java.awt.Frame parent, boolean modal) {
+    public BuscarView(java.awt.Frame parent, boolean modal, String archivo) {
         super(parent, modal);
+        this.ARCHIVO_REGISTRO = archivo;
         initComponents();
     }
 
@@ -29,21 +33,86 @@ public class BuscarView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        BuscarAlumno = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        VerAlumnoBuscado = new javax.swing.JTextArea();
+        introducirDNI = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setText("Buscar alumnos");
+
+        jLabel2.setText("Introduce el DNI del alumno que quieres buscar");
+
+        BuscarAlumno.setText("Buscar");
+        BuscarAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarAlumnoActionPerformed(evt);
+            }
+        });
+
+        VerAlumnoBuscado.setColumns(20);
+        VerAlumnoBuscado.setRows(5);
+        jScrollPane1.setViewportView(VerAlumnoBuscado);
+
+        introducirDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                introducirDNIActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 367, Short.MAX_VALUE)
+                            .addComponent(introducirDNI)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(BuscarAlumno)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 78, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(introducirDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(BuscarAlumno)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void BuscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarAlumnoActionPerformed
+        // TODO add your handling code here
+        String dni = introducirDNI.getText().trim();
+        String resultado = RegistroAlumnos.buscarAlumno(dni, ARCHIVO_REGISTRO);
+        VerAlumnoBuscado.setText(resultado);
+    }//GEN-LAST:event_BuscarAlumnoActionPerformed
+
+    private void introducirDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_introducirDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_introducirDNIActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,7 +139,7 @@ public class BuscarView extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                BuscarView dialog = new BuscarView(new javax.swing.JFrame(), true);
+                BuscarView dialog = new BuscarView(new javax.swing.JFrame(), true, "registro.txt");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -83,5 +152,11 @@ public class BuscarView extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BuscarAlumno;
+    private javax.swing.JTextArea VerAlumnoBuscado;
+    private javax.swing.JTextField introducirDNI;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

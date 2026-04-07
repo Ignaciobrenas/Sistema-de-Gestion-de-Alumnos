@@ -127,7 +127,7 @@ public class MenuView extends javax.swing.JFrame {
     }//GEN-LAST:event_registrarAlumnoActionPerformed
 
     private void buscarAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarAlumnoActionPerformed
-        BuscarView buscar = new BuscarView(this, true);
+        BuscarView buscar = new BuscarView(new javax.swing.JFrame(), true, "registro.txt");
         buscar.setLocationRelativeTo(null);
         buscar.setVisible(true);
 
