@@ -1,7 +1,8 @@
 # 📚 Sistema de Gestión de Alumnos — MP0485 RA5
 
 > **Módulo:** MP0485 – Programación · **Unidad:** RA5 – Lectura/Escritura de Ficheros  
-> **Centro:** Stucom · **Grupo:** DAM1  
+> **Centro:** Stucom · **Grupo:** DAM1
+> https://github.com/Ignaciobrenas/Sistema-de-Gestion-de-Alumnos
 
 ---
 
@@ -85,8 +86,8 @@ public class Alumno {
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/student-registry-mp0485.git
-cd student-registry-mp0485
+git clone https://github.com/Ignaciobrenas/Sistema-de-Gestion-de-Alumnos/.git
+cd Sistema-de-Gestion-de-Alumnos
 ```
 
 ### Compilar
@@ -134,4 +135,4 @@ Carlos;López;22;DAW2;87654321B
 
 ## 📄 Licencia
 
-Proyecto académico de uso educativo. Todos los derechos reservados © 2025 — Stucom DAM1.
+Proyecto académico de uso educativo. Todos los derechos reservados © 2026 — Stucom DAM1.
